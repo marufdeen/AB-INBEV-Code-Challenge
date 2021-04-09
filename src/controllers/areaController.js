@@ -1,4 +1,5 @@
-const { Area } = require('../models'); 
+const { Area } = require('../models');
+const validations = require('../helper/inPutValidation');
 
 /* eslint radix: ["error", "as-needed"] */
 
@@ -15,15 +16,30 @@ class area {
    */
   static async calculate(req, res) {
     const userId = parseInt(req.decoded.userId);
-    const { shape, side, length, breadth, radius  } = req.body; 
-    await Area.create({
-      userId,
-      title,
-      content, 
-    });
+    const { shape, side, length, breadth, lengthA, lengthB, lengthC, radius  } = req.body;
+    const loweredShape = shape.toLowerCase();
+    console.log(loweredShape);
+    if (loweredShape == 'square') { 
+      const errors = await validations.squareValidations(req.body);
+      if (Object.keys(errors).length > 0) {
+        return res.status(401).json({
+          errors
+        });
+      }
+    const result = parseInt(side * side);
+    await Area.create({ userId, shape, side, result });
     return res.status(200).json({
       message: 'Area created successfully!',
+      shape: loweredShape,
+      dimension: { side  },
+      area: result,
     });
+    }  
+    else {
+      return res.status(401).json({
+        Error: 'Sorry, your shape is out of our scope at the moment'
+      });
+    }
   }
 
   /**
@@ -33,15 +49,15 @@ class area {
    * @param {*} res
    */
   static async getAreas(req, res) {
-    const permittedPosts = await Area.findAll();
-    if (permittedPosts.length > 0) {
+    const areas = await Area.findAll();
+    if (areas.length > 0) {
       return res.status(200).json({
-        message: 'Posts Found',
-        permittedPosts
+        message: 'Areas Found',
+        areas
       });
     }
     return res.status(401).json({
-      message: 'No post found. Be the first to create a post'
+      message: 'No Areas found. Be the first to create shape'
     });
   }
 
