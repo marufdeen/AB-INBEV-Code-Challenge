@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 const bcrypt = require('bcryptjs') ;
-const { User, Calculation } = require('../models') ;
+const { User, Area } = require('../models') ;
 const createToken =  require('../helper/createToken'); 
 
 const saltRounds = 10;
@@ -93,10 +93,10 @@ const saltRounds = 10;
     const userId = parseInt(req.params.userId);
     const userFound = await User.findOne({
       where: { id: userId },
-      include: [{
-        model: Calculation,
-        as: 'Calculations',
-      }],
+     /*  include: [{
+        model: Area,
+        as: 'Areas',
+      }], */
     });
     if (userFound) {
       return res.status(200).json({

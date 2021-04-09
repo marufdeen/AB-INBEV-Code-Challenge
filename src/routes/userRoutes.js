@@ -10,5 +10,6 @@ router.get('/users', user.allUsers);
 router.get('/users/:userId', user.singleUser);
 router.post('/register', validateSignup, user.register);
 router.post('/login', validateSignin, user.login); 
-router.patch('/editProfile', verifyToken, isUserValid, validateEdit, user.editDetails)
+router.patch('/editProfile', verifyToken, isUserValid, validateEdit, user.editDetails);
+
 module.exports = router;

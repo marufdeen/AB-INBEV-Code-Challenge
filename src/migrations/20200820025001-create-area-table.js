@@ -1,5 +1,6 @@
+'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Calculations', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Areas', {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -20,15 +21,27 @@ module.exports = {
         }
       }
     },
-    side: {
-      type: Sequelize.INTEGER(255),
-      allowNull: true, 
-    },
     length: {
       type: Sequelize.INTEGER(255),
       allowNull: true, 
     },
     breadth: {
+      type: Sequelize.INTEGER(255),
+      allowNull: true, 
+    },
+    side: {
+      type: Sequelize.INTEGER(255),
+      allowNull: true, 
+    },
+    lengthA: {
+      type: Sequelize.INTEGER(255),
+      allowNull: true, 
+    },
+    lengthB: {
+      type: Sequelize.INTEGER(255),
+      allowNull: true, 
+    },
+    lengthC: {
       type: Sequelize.INTEGER(255),
       allowNull: true, 
     },
@@ -50,5 +63,5 @@ module.exports = {
     updatedAt: Sequelize.DATE
   }),
 
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Calculations')
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Areas')
 };

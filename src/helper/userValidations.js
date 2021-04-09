@@ -21,28 +21,34 @@ const checkEmail = (email) => User.findOne({
     const signupErrors = {};
 
     if (!firstName || firstName.length < 3 || !validName.test(firstName)) {
-      signupErrors.message = 'First name is required, with at least three alphabetical characters';
+      signupErrors.firstName = [];
+      signupErrors.firstName.push('First name is required, with at least three alphabetical characters');
     }
 
     if (!lastName || lastName.length < 3 || !validName.test(lastName)) {
-      signupErrors.message = 'Last name is required, with at least three alphabetical characters';
+      signupErrors.lastName = [];
+      signupErrors.lastName.push('Last name is required, with at least three alphabetical characters');
     }
 
     if (!email || !validEmail.test(email)) {
-      signupErrors.message =  'Invalid Email Format';
+      signupErrors.email = [];
+      signupErrors.email.push('Invalid Email Format');
     }
 
     const emailAlreadyExist = await checkEmail(email);
     if (emailAlreadyExist) {
-      signupErrors.message = 'Email already exist';
+      signupErrors.email = [];
+      signupErrors.email.push('Email already exist');
     }
 
     if (!password || password.length < 3) {
-      signupErrors.message = 'Password is required, with at least three characters';
+      signupErrors.password = [];
+      signupErrors.password.push('Password is required, with at least three characters');
     }
 
     if (!confirmPassword || confirmPassword !== password) {
-      signupErrors.message = 'Passwords don\'t match';
+      signupErrors.confirmPassword = [];
+      signupErrors.confirmPassword.push('Passwords don\'t match');
     }
     return signupErrors;
   }
@@ -58,11 +64,13 @@ const checkEmail = (email) => User.findOne({
     const siginErrors = {};
 
     if (!email || !validEmail.test(email)) {
-      siginErrors.message = 'Invalid Email Format';
+      siginErrors.email = [];
+      siginErrors.email.push('Invalid Email Format');
     }
 
     if (!password || password.length < 2) {
-      siginErrors.message = 'Password must be at least three characters';
+      siginErrors.password = [];
+      siginErrors.password.push('Password must be at least three characters');
     }
 
     return siginErrors;
@@ -74,24 +82,32 @@ const checkEmail = (email) => User.findOne({
      * @param {object} body
      * @returns {Array} editErrors
      */
-  static async editValidations(body, userId) {
+  static async editValidations(body, userId) { 
     const { firstName, lastName, email } = body;
-    const editErrors = {};
+    const editErrors = [];
     const emailAlreadyExist = await checkEmail(email);
 
     if (!email || !validEmail.test(email)) {
-      editErrors.message =  'Invalid Email Format';
+      editErrors.push({
+        Email: 'Invalid Email Format'
+      });
     }
     if (emailAlreadyExist.dataValues.email.length > 0 && emailAlreadyExist.dataValues.id !== userId) {
-      editErrors.message = 'User already exist';
+      editErrors.push({
+        Email: 'User already exist'
+      });
     }
 
     if (!firstName || firstName.length < 3 || !validName.test(firstName)) {
-      editErrors.message = 'First Name must be at least three alphabetical characters';
+      editErrors.push({
+        firstName: 'First Name must be at least three alphabetical characters'
+      });
     }
 
     if (!lastName || lastName.length < 3 || !validName.test(lastName)) {
-      editErrors.message = 'Last Name must be at least three alphabetical characters';
+      editErrors.push({
+        lastName: 'Last Name must be at least three alphabetical characters'
+      });
     }
     return editErrors;
   }

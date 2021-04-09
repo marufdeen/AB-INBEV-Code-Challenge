@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
-  const Calculation = sequelize.define('Calculation', {
+  const Area = sequelize.define('Area', {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,15 +15,27 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    side: {
-      type: DataTypes.INTEGER,
-      allowNull: true, 
-    },
     length: {
       type: DataTypes.INTEGER,
       allowNull: true, 
     },
     breadth: {
+      type: DataTypes.INTEGER,
+      allowNull: true, 
+    },
+    side: {
+      type: DataTypes.INTEGER,
+      allowNull: true, 
+    },
+    lengthA: {
+      type: DataTypes.INTEGER,
+      allowNull: true, 
+    },
+    lengthB: {
+      type: DataTypes.INTEGER,
+      allowNull: true, 
+    },
+    lengthC: {
       type: DataTypes.INTEGER,
       allowNull: true, 
     },
@@ -42,12 +54,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   }, {});
-  Calculation.associate = function (models) { 
-    Calculation.belongsTo(models.User, {
+  Area.associate = function (models) { 
+    Area.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'users',
       onDelete: 'CASCADE',
     });
   };
-  return Calculation;
+  return Area;
 };
