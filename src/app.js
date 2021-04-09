@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const routes = require('./routes/index');
+const routes = require('./routes/index');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger') 
 
@@ -16,6 +16,6 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes for the end-points
-//app.use('/api', routes);
+app.use('/api', routes);
 
 module.exports = app;

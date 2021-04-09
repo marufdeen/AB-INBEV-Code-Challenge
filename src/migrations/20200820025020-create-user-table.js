@@ -1,13 +1,33 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('user', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Users', {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     }, 
+    firstName: {
+      type: Sequelize.STRING(255),
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'First name field cannot be empty'
+        }
+      }
+    },
+    lastName: {
+      type: Sequelize.STRING(255),
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Last name field cannot be empty'
+        }
+      }
+    },
     email: {
-      type: Sequelize.STRING(20),
+      type: Sequelize.STRING(255),
       allowNull: false,
       validate: {
         notEmpty: {
@@ -33,5 +53,5 @@ module.exports = {
     updatedAt: Sequelize.DATE
   }),
 
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('user')
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Users')
 };

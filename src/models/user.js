@@ -1,6 +1,26 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', { 
+  const User = sequelize.define('User', {   
+    firstName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        args: true,
+        msg: 'First name field cannot be empty'
+      }
+    }
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        args: true,
+        msg: 'Last name field cannot be empty'
+      }
+    }
+  },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
