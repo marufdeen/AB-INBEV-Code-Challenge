@@ -1,6 +1,6 @@
 const { User } = require('../models') ;
 
- const isUserValid = async ({ decoded: { userId } }, res, next) => {
+ exports.isUserValid = async ({ decoded: { userId } }, res, next) => {
   const userFound = await User.findOne({
     where: { id: userId }
   });
@@ -10,5 +10,4 @@ const { User } = require('../models') ;
   return res.status(404).json({
     message: 'Login First'
   });
-};
-module.exports = isUserValid
+}; 
