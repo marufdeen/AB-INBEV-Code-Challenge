@@ -17,8 +17,7 @@ class area {
   static async calculate(req, res) {
     const userId = parseInt(req.decoded.userId);
     const { shape, side, length, breadth, lengthA, lengthB, lengthC, radius  } = req.body;
-    const loweredShape = shape.toLowerCase();
-    console.log(loweredShape);
+    const loweredShape = shape.toLowerCase(); 
     if (loweredShape == 'square') { 
       const errors = await validations.squareValidations(req.body);
       if (Object.keys(errors).length > 0) {
@@ -31,10 +30,28 @@ class area {
     return res.status(200).json({
       message: 'Area created successfully!',
       shape: loweredShape,
-      dimension: { side  },
-      area: result,
+      dimensions: { side  },
+      area: result
     });
     }  
+
+    if (loweredShape == 'rectangle') {
+      const errors = await validations.rectangleValidations(req.body);
+      if (Object.keys(errors).length > 0) {
+        return res.status(401).json({
+          errors
+        });
+      }
+      const result = parseInt(length * breadth);
+      await Area.create({ userId, shape, length, breadth, result });
+      return res.status(200).json({
+        message: 'Area created successfully!',
+        shape: loweredShape,
+        dimensions: { length, breadth  },
+        area: result
+      });
+      
+    }
     else {
       return res.status(401).json({
         Error: 'Sorry, your shape is out of our scope at the moment'
