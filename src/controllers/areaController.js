@@ -29,7 +29,7 @@ class area {
     const result = parseFloat(side * side);
     await Area.create({ userId, shape: loweredShape, side, result });
     return res.status(200).json({
-      message: 'Area created successfully!',
+      message: 'Area calculated successfully!',
       shape: loweredShape,
       dimensions: { side  },
       area: result
@@ -46,7 +46,7 @@ class area {
       const result = parseFloat(length * breadth);
       await Area.create({ userId, shape: loweredShape, length, breadth, result });
       return res.status(200).json({
-        message: 'Area created successfully!',
+        message: 'Area calculated successfully!',
         shape: loweredShape,
         dimensions: { length, breadth  },
         area: result
@@ -56,7 +56,7 @@ class area {
 
     if (loweredShape == 'triangle') {
       const errors = await validations.triangleValidations(req.body);
-      if (object.keys(errors).length > 0) {
+      if (Object.keys(errors).length > 0) {
         return res.status(401).json({
           errors
         });
@@ -69,12 +69,29 @@ class area {
       
       await Area.create({ userId, shape: loweredShape, lengthA, lengthB, lengthC, result });
       return res.status(200).json({
-        message: 'Area created successfully!',
+        message: 'Area calculated successfully!',
         shape: loweredShape,
         dimensions: { lengthA, lengthB, lengthC },
         area: result
       });
+    }
 
+    if (loweredShape == 'circle') {
+      const errors = await validations.circleValidations(req.body);
+      if (Object.keys(errors).length > 0) {
+        return res.status(401).json({
+          errors
+        });
+      }
+      const result = Math.PI * Math.pow(parseFloat(radius), 2);
+      await Area.create({ userId, shape: loweredShape, radius, result})
+
+      return res.status(200).json({
+        message: 'Area calculated successfully!',
+        shape: loweredShape,
+        dimensions: {radius },
+        area: result
+      });
     }
     else {
       return res.status(401).json({
