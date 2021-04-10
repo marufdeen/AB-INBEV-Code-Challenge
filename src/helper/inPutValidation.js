@@ -55,13 +55,8 @@ const { validNumber } = require('./regEx') ;
      */
    
   static triangleValidations(body) {
-      const { side, lengthA, lengthB, lengthC } = body;
+      const { lengthA, lengthB, lengthC } = body;
       const triangleErrors = {};
-  
-      if (!side || !validNumber.test(side)) {
-        triangleErrors.side = [];
-        triangleErrors.side.push('Side is required and must be a number');
-      } 
       
       if (!lengthA || !validNumber.test(lengthA)) {
         triangleErrors.lengthA = [];
