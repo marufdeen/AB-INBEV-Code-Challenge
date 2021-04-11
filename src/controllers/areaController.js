@@ -143,11 +143,7 @@ class area {
     const userId = parseFloat(req.decoded.userId);
     const areaId = parseFloat(req.params.areaId);
     const areaFound = await Area.findOne({
-      where: [{ id: areaId }, { userId }, { visible: true }],
-      include: [{
-        model: Comment,
-        as: 'comments'
-      }],
+      where: [{ id: areaId }, { userId }, { visible: true }]
     });
     if (areaFound) {
       return res.status(200).json({
