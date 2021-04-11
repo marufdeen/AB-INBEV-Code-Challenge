@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign */
 const bcrypt = require('bcryptjs') ;
 const { User, Area } = require('../models') ;
-const createToken =  require('../helper/createToken'); 
+const createToken =  require('../helpers/createToken'); 
 
 const saltRounds = 10;
 

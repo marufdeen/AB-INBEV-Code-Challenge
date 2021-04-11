@@ -1,4 +1,4 @@
-const validation = require('../helper/userValidations') ; 
+const validation = require('../helpers/userValidations') ; 
 
 exports.validateSignup = async (req, res, next) => {
   const errors = await validation.signupValidations(req.body);

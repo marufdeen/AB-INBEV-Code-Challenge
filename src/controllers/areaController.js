@@ -1,6 +1,6 @@
 const { Area } = require('../models');
-const validations = require('../helper/inPutValidation');
-
+const validations = require('../helpers/inPutValidation');
+const calculator = require('../services/areaCalculator');
 /* eslint radix: ["error", "as-needed"] */
 
 /**
@@ -15,92 +15,61 @@ class area {
    * @param {*} res
    */
   static async calculate(req, res) {
-
     const userId = parseInt(req.decoded.userId);
     const { shape, side, length, breadth, lengthA, lengthB, lengthC, radius  } = req.body;
-    const loweredShape = shape.toLowerCase(); 
-    if (loweredShape == 'square') { 
-      const errors = await validations.squareValidations(req.body);
-      if (Object.keys(errors).length > 0) {
-        return res.status(401).json({
-          errors
-        });
+    const loweredShape = shape.toLowerCase();  
+     
+     if (loweredShape == 'square') {
+      const data = await calculator.calculateSquare(req.body); 
+      if (data.hasOwnProperty('errors')) {
+        res.send(data.errors); 
       }
-    const result = parseFloat(side * side);
-    await Area.create({ userId, shape: loweredShape, side, result });
-    return res.status(200).json({
-      message: 'Area calculated successfully!',
-      shape: loweredShape,
-      dimensions: { side  },
-      area: result
-    });
-    }  
+      else {
+        await Area.create({userId, shape: loweredShape, side, result: data.area });
+        res.send(data); 
+      }   
+    }
 
     if (loweredShape == 'rectangle') {
-      const errors = await validations.rectangleValidations(req.body);
-      if (Object.keys(errors).length > 0) {
-        return res.status(401).json({
-          errors
-        });
+      const data = await calculator.calculateRectangle(req.body);
+      if (data.hasOwnProperty('errors')) {
+        res.send(data.errors); 
       }
-      const result = parseFloat(length * breadth);
-      await Area.create({ userId, shape: loweredShape, length, breadth, result });
-      return res.status(200).json({
-        message: 'Area calculated successfully!',
-        shape: loweredShape,
-        dimensions: { length, breadth  },
-        area: result
-      });
-      
+      else {
+        await Area.create({ userId, shape: loweredShape, length, breadth, result: data.area });
+        res.send(data);
+      }
     }
 
     if (loweredShape == 'triangle') {
-      console.log(Math.sqrt(3));
-      const errors = await validations.triangleValidations(req.body);
-      if (Object.keys(errors).length > 0) {
-        return res.status(401).json({
-          errors
-        });
+      const data = await calculator.calculateTriangle(req.body);
+      if (data.hasOwnProperty('errors')) {
+        res.send(data.errors); 
       }
-      const semiPerimeter = parseFloat(lengthA + lengthB + lengthC) / 2;
-      const semiPerimeterA = semiPerimeter - lengthA;
-      const semiPerimeterB = semiPerimeter - lengthB;
-      const semiPerimeterC = semiPerimeter - lengthC;
-      const result = Math.sqrt( semiPerimeter * semiPerimeterA * semiPerimeterB * semiPerimeterC );
-      
-      await Area.create({ userId, shape: loweredShape, lengthA, lengthB, lengthC, result });
-      return res.status(200).json({
-        message: 'Area calculated successfully!',
-        shape: loweredShape,
-        dimensions: { lengthA, lengthB, lengthC },
-        area: result
-      });
+      else {
+        await Area.create({ userId, shape: loweredShape, lengthA, lengthB, lengthC, result: data.area });
+        res.send(data)
+      }
     }
 
     if (loweredShape == 'circle') {
-      const errors = await validations.circleValidations(req.body);
-      if (Object.keys(errors).length > 0) {
-        return res.status(401).json({
-          errors
-        });
+      const data = await calculator.calculateCircle(req.body);
+      if (data.hasOwnProperty('errors')) {
+        res.send(data.errors); 
       }
-      const result = Math.PI * Math.pow(parseFloat(radius), 2);
-      await Area.create({ userId, shape: loweredShape, radius, result})
+      else {
+        await Area.create({ userId, shape: loweredShape, radius, result: data.area });
+        res.send(data)
+      }
 
-      return res.status(200).json({
-        message: 'Area calculated successfully!',
-        shape: loweredShape,
-        dimensions: {radius },
-        area: result
-      });
     }
     else {
-      return res.status(401).json({
+      res.send({
         Error: 'Sorry, your shape is out of our scope at the moment'
       });
     }
   }
-
+// 77 to 54
   /**
    * @description fetch all Areas from dummy db
    * @method getAreas
