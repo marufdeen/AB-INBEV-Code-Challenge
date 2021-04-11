@@ -22,35 +22,35 @@ module.exports = {
       }
     },
     length: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: true, 
     },
     breadth: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: true, 
     },
     side: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: true, 
     },
     lengthA: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: true, 
     },
     lengthB: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: true, 
     },
     lengthC: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: true, 
     },
     radius: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: true, 
     }, 
     result: {
-      type: Sequelize.INTEGER(255),
+      type: Sequelize.DOUBLE(255),
       allowNull: false,
       validate: {
         notEmpty: {

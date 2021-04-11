@@ -55,6 +55,7 @@ class area {
     }
 
     if (loweredShape == 'triangle') {
+      console.log(Math.sqrt(3));
       const errors = await validations.triangleValidations(req.body);
       if (Object.keys(errors).length > 0) {
         return res.status(401).json({
