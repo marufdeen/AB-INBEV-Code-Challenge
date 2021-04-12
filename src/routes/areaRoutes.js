@@ -5,5 +5,5 @@ const  {isUserValid }  = require('../middlewares/checkAuth');
 
 const router = express.Router();
 
-router.post('/calculate', verifyToken, isUserValid, area.calculate )
+router.post('/calculate',[ verifyToken, isUserValid ], area.calculate )
 module.exports = router;
